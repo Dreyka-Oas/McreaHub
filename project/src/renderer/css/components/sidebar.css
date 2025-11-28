@@ -1,0 +1,255 @@
+/* src/renderer/css/components/sidebar.css */
+
+#sidebar { 
+    width: 260px; 
+    background-color: var(--color-sidebar-background); 
+    backdrop-filter: blur(20px); 
+    border-right: 1px solid var(--color-separator); 
+    display: flex; 
+    flex-direction: column; 
+    padding: var(--spacing-lg) 0; 
+    user-select: none; 
+    height: 100vh; 
+    flex-shrink: 0; 
+    position: relative; 
+    z-index: 50; 
+}
+
+.sidebar-title { 
+    font-family: var(--font-family-serif);
+    font-size: 24px; 
+    font-weight: 800; 
+    color: var(--color-text-primary); 
+    text-align: center; 
+    padding: 0 var(--spacing-md) 24px; 
+    margin-bottom: 10px; 
+    letter-spacing: -0.5px; 
+    position: relative;
+    border-bottom: none; 
+}
+
+.sidebar-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent-blue), transparent);
+    opacity: 0.5;
+    box-shadow: 0 1px 3px var(--color-accent-blue-translucent);
+}
+
+.nav-items-container { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding-bottom: 20px; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* SCROLLBAR DISCRÈTE */
+.nav-items-container::-webkit-scrollbar { width: 4px; }
+.nav-items-container::-webkit-scrollbar-thumb { background: transparent; }
+.nav-items-container:hover::-webkit-scrollbar-thumb { background: var(--color-separator); }
+
+.nav-glider {
+    position: absolute;
+    left: 12px; 
+    right: 12px;
+    height: 42px;
+    background-color: var(--color-accent-blue);
+    border-radius: 8px;
+    z-index: 0;
+    pointer-events: none;
+    box-shadow: 0 4px 12px var(--color-accent-blue-translucent);
+    transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- BOUTONS DE NAVIGATION DRAGGABLE --- */
+.nav-button { 
+    display: flex; 
+    align-items: center; 
+    gap: var(--spacing-md); 
+    padding: 10px 16px; 
+    margin: 0 12px; 
+    border: none; 
+    background-color: transparent; 
+    color: var(--color-text-secondary); 
+    font-size: 14px; 
+    font-weight: 600; 
+    border-radius: 8px; 
+    text-align: left; 
+    cursor: grab; /* Curseur de main pour indiquer draggable */
+    transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s;
+    position: relative;
+    z-index: 1;
+    border: 2px solid transparent; /* Préparation pour le drop indicator */
+}
+
+.nav-button:active { cursor: grabbing; }
+
+.nav-button:hover:not(.active) { 
+    background-color: var(--color-background-tertiary); 
+    color: var(--color-text-primary); 
+    transform: translateX(4px); 
+}
+
+.nav-button.active { 
+    background-color: transparent; 
+    color: #fff; 
+    box-shadow: none; 
+    transform: none;
+    cursor: default; /* L'actif peut être drag mais pas besoin de curseur grab */
+}
+
+.nav-button svg { 
+    width: 20px; height: 20px; 
+    flex-shrink: 0; 
+    color: inherit; 
+    opacity: 0.7; 
+    transition: opacity 0.2s;
+}
+
+.nav-button.active svg { opacity: 1; }
+
+/* --- STYLES DU SPACER --- */
+.nav-spacer {
+    height: 30px; /* Hauteur de l'espaceur */
+    margin: 4px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    position: relative;
+    z-index: 1;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+}
+
+.nav-spacer:hover { opacity: 1; background-color: rgba(255,255,255,0.03); }
+
+/* Ligne visuelle subtile au centre de l'espaceur */
+.spacer-line {
+    width: 40%;
+    height: 2px;
+    background-color: var(--color-separator);
+    border-radius: 2px;
+}
+
+/* --- ÉTATS DU DRAG & DROP --- */
+
+/* L'élément en cours de déplacement */
+.dragging {
+    opacity: 0.4;
+    background-color: var(--color-background-tertiary);
+    border: 1px dashed var(--color-text-tertiary);
+}
+
+/* Indicateurs de zone de drop */
+.drag-over-top {
+    border-top: 2px solid var(--color-accent-blue) !important;
+    margin-top: 2px; /* Compensation pour éviter le saut */
+}
+
+.drag-over-bottom {
+    border-bottom: 2px solid var(--color-accent-blue) !important;
+    margin-bottom: 2px;
+}
+
+/* Animation fluide lors du déplacement du DOM */
+.draggable-item {
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* --- ZONE DE STATUT --- */
+.sidebar-status-area {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+    padding: 16px 12px; 
+    background-color: transparent !important; 
+    border-top: none;
+    backdrop-filter: none;
+}
+
+/* Style Carte Flottante */
+.status-card {
+    background-color: var(--color-background-secondary); 
+    border: 1px solid var(--color-separator);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.status-card:hover {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-text-tertiary);
+    transform: translateY(-1px);
+}
+
+.status-header { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    min-height: 32px;
+}
+
+.status-icon-wrapper { 
+    width: 32px; height: 32px; 
+    border-radius: 8px; 
+    display: flex; align-items: center; justify-content: center; 
+    flex-shrink: 0; color: white; 
+    transition: all 0.3s ease;
+}
+
+.download-card .status-icon-wrapper { background: linear-gradient(135deg, #0A84FF, #0055D4); }
+.install-card .status-icon-wrapper { background: linear-gradient(135deg, #30D158, #208b3a); }
+.git-card .status-icon-wrapper { background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-blue-hover)); }
+.backup-card .status-icon-wrapper { background: var(--color-background-tertiary); color: var(--color-text-primary); border: 1px solid var(--color-separator); }
+.sync-card .status-icon-wrapper { background: linear-gradient(135deg, #0A84FF, #0055D4); }
+.restore-card .status-icon-wrapper { background: linear-gradient(135deg, #BF5AF2, #8E2CBF); }
+
+.status-text { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+.status-title { font-size: 12px; font-weight: 700; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status-detail { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); white-space: nowrap; opacity: 0.8; }
+.status-percent { font-size: 12px; font-weight: 700; color: var(--color-text-primary); min-width: 32px; text-align: right; font-family: monospace; }
+
+.status-toggle-icon { 
+    color: var(--color-text-tertiary); 
+    opacity: 0.6; 
+    transition: transform 0.3s ease;
+    width: 16px; height: 16px;
+}
+.status-card.is-collapsed .status-toggle-icon { transform: rotate(-90deg); }
+
+.status-progress-wrapper {
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 20px; 
+    opacity: 1;
+    margin-top: 10px;
+}
+.status-card.is-collapsed .status-progress-wrapper { max-height: 0; margin-top: 0; opacity: 0; }
+
+.status-progress-track { width: 100%; height: 6px; background-color: rgba(128, 128, 128, 0.15); border-radius: 3px; overflow: hidden; }
+.status-progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s linear; position: relative; overflow: hidden; }
+
+.fill-download { background-color: #0A84FF; }
+.fill-git { background-color: var(--color-accent-blue); background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent); background-size: 12px 12px; animation: stripes 1s linear infinite; }
+.fill-backup { background-color: var(--color-text-secondary); }
+.fill-sync { background-color: #0A84FF; }
+.fill-restore { background-color: #BF5AF2; background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent); background-size: 12px 12px; animation: stripes 1s linear infinite; }
+
+@keyframes stripes { from { background-position: 40px 0; } to { background-position: 0 0; } }

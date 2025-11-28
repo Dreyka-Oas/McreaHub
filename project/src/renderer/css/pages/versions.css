@@ -1,0 +1,110 @@
+/* src/renderer/css/pages/versions.css */
+
+.versions-toolbar { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 16px; 
+    align-items: center; 
+    background-color: var(--color-background-secondary); 
+    padding: 16px; 
+    border-radius: 20px; 
+    border: 1px solid var(--color-separator); 
+    margin-bottom: 30px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
+}
+
+.search-container { 
+    flex-grow: 1; 
+    min-width: 280px; 
+    position: relative; 
+}
+
+.search-input { 
+    width: 100%; 
+    background-color: var(--color-background-tertiary); 
+    border: 1px solid var(--color-separator-translucent); 
+    border-radius: 12px; 
+    padding: 12px 12px 12px 42px; 
+    font-size: 14px; 
+    color: var(--color-text-primary); 
+    transition: all 0.2s ease; 
+}
+
+.search-input:focus { 
+    background-color: var(--color-background); 
+    border-color: var(--color-accent-blue); 
+    box-shadow: 0 0 0 3px var(--color-accent-blue-translucent); 
+    outline: none; 
+}
+
+.search-icon { 
+    position: absolute; 
+    left: 14px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    width: 18px; 
+    height: 18px; 
+    color: var(--color-text-tertiary); 
+    pointer-events: none; 
+}
+
+.filters-group { 
+    display: flex; 
+    gap: 10px; 
+    flex-wrap: wrap; 
+}
+
+/* --- NOUVEAUX STYLES DU HEADER --- */
+
+/* Le badge "Chip" à côté du titre */
+.version-counter-badge {
+    background-color: var(--color-accent-blue-translucent);
+    color: var(--color-accent-blue);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(10, 132, 255, 0.15);
+    transform: translateY(2px); /* Alignement optique */
+}
+
+/* Le sous-titre gris */
+.page-subtitle {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin: 0;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* Info de synchro plus discrète */
+.sync-info-container {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    background-color: var(--color-background-tertiary);
+    padding: 6px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Consolas', monospace;
+    border: 1px solid var(--color-separator-translucent);
+}
+
+.sync-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-accent-green);
+    box-shadow: 0 0 4px var(--color-accent-green);
+}
+
+.refresh-button.loading svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

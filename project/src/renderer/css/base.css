@@ -1,0 +1,144 @@
+/* src/renderer/css/base.css */
+
+/* ===================================================================
+   1. IMPORTS (L'ORDRE EST IMPORTANT)
+   =================================================================== */
+@import url('./layout.css');
+
+/* Composants UI */
+@import url('./components/sidebar.css');
+@import url('./components/card.css');
+@import url('./components/forms.css');
+@import url('./components/loader.css');
+@import url('./components/modal.css');
+/* --- AJOUT --- */
+@import url('./components/tooltip.css');
+
+/* Pages */
+@import url('./pages/projects.css');
+@import url('./pages/settings.css');
+@import url('./pages/notes.css');
+@import url('./pages/changelog.css');
+@import url('./pages/versions.css');
+@import url('./pages/mcreator-settings.css');
+
+/* ===================================================================
+   2. VARIABLES GLOBALES (DESIGN SYSTEM)
+   =================================================================== */
+:root {
+  /* --- Palette (Thème Sombre par défaut) --- */
+  --color-background: #1d1d1f;
+  --color-background-secondary: #2c2c2e;
+  --color-background-tertiary: #3a3a3c;
+  
+  --color-sidebar-background: rgba(30, 30, 32, 0.95);
+  
+  --color-text-primary: #f5f5f7;
+  --color-text-secondary: #a1a1a6;
+  --color-text-tertiary: #86868b;
+  
+  --color-separator: rgba(255, 255, 255, 0.15);
+  --color-separator-translucent: rgba(255, 255, 255, 0.1);
+
+  --color-accent-blue: #0A84FF;
+  --color-accent-blue-hover: #0070D9;
+  --color-accent-blue-translucent: rgba(10, 132, 255, 0.15);
+  --color-accent-green: #30D158;
+  --color-accent-red: #FF453A;
+  --color-accent-red-hover: #D6362E;
+  --color-accent-yellow: #FFD60A;
+
+  /* --- Typographie --- */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-family-serif: 'Cinzel Decorative', serif;
+  
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 20px;
+  --font-size-xl: 28px;
+  --font-size-title: 34px;
+
+  /* --- Espacements & Rayons --- */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+
+  /* --- Animations --- */
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-normal: 0.3s;
+  --duration-fast: 0.2s;
+}
+
+/* Thème Clair (si activé) */
+body.theme-light {
+  --color-background: #f5f5f7;
+  --color-background-secondary: #ffffff;
+  --color-background-tertiary: #f0f0f2;
+  
+  --color-sidebar-background: rgba(242, 242, 247, 0.95);
+  
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #6e6e73;
+  --color-text-tertiary: #86868b;
+  
+  --color-separator: rgba(0, 0, 0, 0.12);
+  --color-separator-translucent: rgba(0, 0, 0, 0.08);
+
+  --color-accent-blue-translucent: rgba(10, 132, 255, 0.1);
+}
+
+/* ===================================================================
+   3. RESET & STYLES DE BASE
+   =================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  overflow: hidden;
+  transition: background-color var(--duration-normal), color var(--duration-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbars stylisées */
+::-webkit-scrollbar { width: 14px; height: 14px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--color-separator); border-radius: 7px; border: 4px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--color-text-tertiary); }
+
+/* Notifications (Toast) */
+#notification-container { position: fixed; bottom: var(--spacing-lg); right: var(--spacing-lg); z-index: 5000; display: flex; flex-direction: column; gap: var(--spacing-md); align-items: flex-end; }
+.notification { background-color: var(--color-background-secondary); padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--radius-md); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); border: 1px solid var(--color-separator); color: var(--color-text-primary); opacity: 0; transform: translateX(100%); transition: all 0.4s var(--ease-out-quad); }
+.notification.visible { opacity: 1; transform: translateX(0); }
+.notification.success { border-left: 4px solid var(--color-accent-green); }
+.notification.error { border-left: 4px solid var(--color-accent-red); }
+.notification.info { border-left: 4px solid var(--color-accent-blue); }
+
+/* Loader Démarrage */
+#startup-loader { position: fixed; inset: 0; background-color: var(--color-background); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease-in-out; }
+#startup-loader.hidden { opacity: 0; pointer-events: none; }
+.startup-title { font-family: var(--font-family-serif); font-size: 2.5em; font-weight: 700; color: var(--color-text-secondary); margin-bottom: 24px; text-shadow: 0 0 8px rgba(255, 255, 255, 0.1); }
+.startup-progress-bar { width: 250px; height: 4px; background-color: var(--color-background-tertiary); border-radius: 2px; overflow: hidden; }
+.startup-progress-bar-fill { width: 100%; height: 100%; background-color: var(--color-accent-blue); border-radius: 2px; animation: progressBarAnimation 2s ease-out forwards; }
+@keyframes progressBarAnimation { from { transform: translateX(-100%); } to { transform: translateX(0%); } }
+
+/* Optimisation Performance */
+.optimize-render {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 100px; 
+}

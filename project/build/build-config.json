@@ -1,0 +1,18 @@
+{
+  "levels": [
+    "user",
+    "pro",
+    "extras",
+    "dev"
+  ],
+  "features": {
+    "showDevTools": "dev",
+    "enableLogging": "dev",
+    "github": "pro",
+    "notes": "extras",
+    "backups": "user",
+    "autoTranslateChangelog": "pro",
+    "concurrentDownloads": "pro",
+    "sidebarReorder": "pro"
+  }
+}

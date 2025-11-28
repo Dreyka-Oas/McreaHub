@@ -1,0 +1,84 @@
+{
+  "sidebar": {
+    "projects": "My Projects",
+    "versions": "All Versions",
+    "installed": "Installed Versions",
+    "changelog": "Changelog",
+    "mcreatorSettings": "MCreator Cfg.",
+    "notes": "Notes",
+    "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": {
+      "title": "General",
+      "startPage": "Startup Page",
+      "startPageDesc": "The page to display when McreaHub launches.",
+      "runInBackground": "Run in background",
+      "runInBackgroundDesc": "Minimize to the system tray instead of quitting.",
+      "startWithSystem": "Start with system",
+      "startWithSystemDesc": "Automatically start McreaHub with your session.",
+      "maxConcurrentDownloads": "Concurrent Downloads",
+      "maxConcurrentDownloadsDesc": "Max number of parallel downloads. Use 0 for unlimited."
+    },
+    "integrations": {
+      "title": "Integrations",
+      "githubToken": "GitHub Access Token",
+      "githubTokenDesc": "Required to synchronize private repositories.",
+      "githubAccount": "GitHub Account",
+      "testButton": "Test",
+      "disconnectButton": "Disconnect",
+      "syncNotes": "Backup Notes to GitHub",
+      "syncNotesDesc": "Syncs your notes to a private Gist.",
+      "syncSettings": "Backup Settings & Sources",
+      "syncSettingsDesc": "Syncs app configuration and project list.",
+      "syncMCreator": "Backup MCreator Config",
+      "syncMCreatorDesc": "Syncs the userpreferences file of MCreator."
+    },
+    "appearance": {
+      "title": "Appearance",
+      "language": "Language",
+      "languageDesc": "User interface language for the application.",
+      "languageSystem": "System",
+      "theme": "Theme",
+      "themeDesc": "Choose the application's appearance.",
+      "autoTranslate": "Automatic translation",
+      "autoTranslateDesc": "Automatically translate the changelog into the app's language."
+    }
+  },
+  "changelogPage": {
+    "title": "MCreator Changelog",
+    "translateButton": "Translate",
+    "translatingButton": "Translating...",
+    "showOriginalButton": "Show Original",
+    "versionFilter": "Version:"
+  },
+  "notesPage": {
+    "title": "My Notes"
+  },
+  "git": {
+    "syncTitle": "Git Synchronization",
+    "syncVersionTitle": "Sync Version",
+    "remoteLabel": "Remote:",
+    "localChanges": "Local changes:",
+    "commitPlaceholder": "Commit message",
+    "close": "Close",
+    "cancel": "Cancel",
+    "pullGlobal": "Pull Global",
+    "commitPush": "Commit & Push",
+    "unlinkButton": "Unlink Repository",
+    "unlinkButtonConfirm": "Confirm Unlink?",
+    "unlinkSuccess": "Repository unlinked.",
+    "unlinkError": "Unlink error.",
+    "errorLabel": "Error:",
+    "initTitle": "Git Initialization",
+    "initBody": "This project is not a Git repository yet.",
+    "initButton": "Initialize",
+    "configTitle": "Remote Configuration",
+    "configBody": "Add a remote repository URL.",
+    "addButton": "Add",
+    "projectUpToDate": "Project up to date.",
+    "readyToSync": "Ready to sync.",
+    "verification": "Checking..."
+  }
+}

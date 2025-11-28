@@ -1,0 +1,60 @@
+{
+  "name": "mcreahub",
+  "version": "0.9.8",
+  "description": "Un gestionnaire avancé pour les versions et projets MCreator.",
+  "main": "out/main/index.js",
+  "scripts": {
+    "start": "npx electron-vite dev",
+    "build": "npm run build:user",
+    "build:cloud": "node build/publish-release.js",
+    "build:release-targets": "npx npm-run-all clean:release --serial build:user build:pro build:extras",
+    "build:all": "npx npm-run-all clean:release --serial build:user build:pro build:extras build:dev",
+    "build:user": "npx cross-env BUILD_TARGET=user npm run _build-target",
+    "build:pro": "npx cross-env BUILD_TARGET=pro npm run _build-target",
+    "build:extras": "npx cross-env BUILD_TARGET=extras npm run _build-target",
+    "build:dev": "npx cross-env NODE_ENV=development BUILD_TARGET=dev npm run _build-target",
+    "_build-target": "npx npm-run-all clean:out --serial _vite-build _electron-builder-dist && npx npm-run-all --parallel clean:artifacts clean:out",
+    "build:dist": "npm run build:user",
+    "_vite-build": "npx electron-vite build",
+    "_electron-builder-dist": "npx electron-builder --config build/electron-builder.cjs",
+    "_electron-builder-dev": "npx electron-builder --config build/electron-builder.cjs",
+    "analyze": "node build/analyze-bundle.js",
+    "clean:out": "npx rimraf out",
+    "clean:release": "npx rimraf release",
+    "clean:artifacts": "npx rimraf release/win-unpacked release/builder-debug.yml release/builder-effective-config.yaml && node build/clean-artifacts.js",
+    "clean": "npx npm-run-all clean:*",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcreator",
+    "minecraft",
+    "launcher",
+    "electron"
+  ],
+  "author": "Dreyka Oas",
+  "license": "ISC",
+  "devDependencies": {
+    "cli-progress": "^3.12.0",
+    "cross-env": "^10.1.0",
+    "electron": "^39.2.1",
+    "electron-builder": "^26.0.12",
+    "electron-vite": "^4.0.1",
+    "execa": "^9.1.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.1.0",
+    "vite": "^7.2.1"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "cheerio": "^1.0.0-rc.12",
+    "chokidar": "^4.0.3",
+    "electron-store": "^11.0.2",
+    "extract-zip": "^2.0.1",
+    "isomorphic-git": "1.35.1",
+    "keytar": "^7.9.0",
+    "lit-html": "^3.1.2",
+    "node-fetch": "^3.3.2",
+    "simple-git": "^3.25.0",
+    "uuid": "^13.0.0"
+  }
+}

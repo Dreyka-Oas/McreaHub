@@ -1,0 +1,84 @@
+{
+  "sidebar": {
+    "projects": "Mes Projets",
+    "versions": "Toutes les versions",
+    "installed": "Versions installées",
+    "changelog": "Changelog",
+    "mcreatorSettings": "Cfg. MCreator",
+    "notes": "Mes Notes",
+    "settings": "Paramètres"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "general": {
+      "title": "Général",
+      "startPage": "Page de démarrage",
+      "startPageDesc": "La page à afficher au lancement de McreaHub.",
+      "runInBackground": "Fonctionnement en arrière-plan",
+      "runInBackgroundDesc": "Réduire dans la barre des tâches au lieu de quitter.",
+      "startWithSystem": "Lancer au démarrage du système",
+      "startWithSystemDesc": "Démarrer McreaHub automatiquement avec votre session.",
+      "maxConcurrentDownloads": "Téléchargements simultanés",
+      "maxConcurrentDownloadsDesc": "Nombre max de téléchargements en parallèle. 0 pour illimité."
+    },
+    "integrations": {
+      "title": "Intégrations",
+      "githubToken": "Token d'accès GitHub",
+      "githubTokenDesc": "Requis pour synchroniser les dépôts privés.",
+      "githubAccount": "Compte GitHub",
+      "testButton": "Tester",
+      "disconnectButton": "Déconnecter",
+      "syncNotes": "Sauvegarder les notes",
+      "syncNotesDesc": "Synchronise vos notes dans un Gist privé.",
+      "syncSettings": "Sauvegarder Paramètres & Sources",
+      "syncSettingsDesc": "Synchronise la configuration de l'app et la liste des projets.",
+      "syncMCreator": "Sauvegarder Config MCreator",
+      "syncMCreatorDesc": "Synchronise le fichier userpreferences de MCreator."
+    },
+    "appearance": {
+      "title": "Apparence",
+      "language": "Langue",
+      "languageDesc": "Langue de l'interface de l'application.",
+      "languageSystem": "Système",
+      "theme": "Thème",
+      "themeDesc": "Choisissez l'apparence de l'application.",
+      "autoTranslate": "Traduction automatique",
+      "autoTranslateDesc": "Traduire automatiquement le changelog dans la langue de l'app."
+    }
+  },
+  "changelogPage": {
+    "title": "Changelog MCreator",
+    "translateButton": "Traduire",
+    "translatingButton": "Traduction...",
+    "showOriginalButton": "Afficher l'original",
+    "versionFilter": "Version:"
+  },
+  "notesPage": {
+    "title": "Mes Notes"
+  },
+  "git": {
+    "syncTitle": "Synchronisation Git",
+    "syncVersionTitle": "Synchroniser la version",
+    "remoteLabel": "Distant :",
+    "localChanges": "Modifications locales :",
+    "commitPlaceholder": "Message de commit",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "pullGlobal": "Pull Global",
+    "commitPush": "Commit & Push",
+    "unlinkButton": "Dissocier le dépôt",
+    "unlinkButtonConfirm": "Confirmer la dissociation ?",
+    "unlinkSuccess": "Dépôt dissocié.",
+    "unlinkError": "Erreur dissociation.",
+    "errorLabel": "Erreur :",
+    "initTitle": "Initialisation Git",
+    "initBody": "Ce projet n'est pas encore un dépôt Git.",
+    "initButton": "Initialiser",
+    "configTitle": "Configuration Distante",
+    "configBody": "Ajoutez une URL de dépôt distant.",
+    "addButton": "Ajouter",
+    "projectUpToDate": "Projet à jour.",
+    "readyToSync": "Prêt à synchroniser.",
+    "verification": "Vérification..."
+  }
+}

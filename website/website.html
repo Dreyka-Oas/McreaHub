@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McreaHub - Le Gestionnaire Ultime pour MCreator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root[data-theme="dark"] {
+            --bg-color: #050507;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-blue: #0A84FF;
+            --accent-glow: #0A84FF;
+            --text-main: #ffffff;
+            --text-muted: #9CA3AF;
+            --nav-bg: rgba(10, 10, 12, 0.6);
+            --mockup-bg: #1d1d1f;
+            --mockup-sidebar: rgba(30,30,32,0.5);
+            --mockup-card: #2c2c2e;
+            --gradient-start: #fff;
+            --gradient-end: #ccc;
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #ffffff;
+            --card-bg: rgba(0, 0, 0, 0.02);
+            --card-border: rgba(0, 0, 0, 0.08);
+            --accent-blue: #007AFF;
+            --accent-glow: #007AFF;
+            --text-main: #000000;
+            --text-muted: #6B7280;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --mockup-bg: #f5f5f7;
+            --mockup-sidebar: rgba(245,245,247,0.8);
+            --mockup-card: #e5e5e7;
+            --gradient-start: #000;
+            --gradient-end: #333;
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Cinzel Decorative', serif;
+        }
+
+        :root {
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Cinzel Decorative', serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- THEME TOGGLE BUTTON --- */
+        .theme-toggle {
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s;
+            font-size: 24px;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--accent-blue);
+        }
+
+        /* --- BACKGROUND ANIMATION --- */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(10, 132, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(48, 209, 88, 0.05), transparent 25%);
+            filter: blur(60px);
+            transition: opacity 0.3s;
+        }
+
+        [data-theme="light"] .ambient-light {
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(48, 209, 88, 0.03), transparent 25%);
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed;
+            top: 20px; left: 50%;
+            transform: translateX(-50%);
+            width: 90%; max-width: 1000px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 24px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 100px;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .logo { 
+            font-family: var(--font-serif); 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: var(--text-main); 
+            text-decoration: none; 
+        }
+        
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-main); }
+
+        .btn-nav {
+            background: var(--accent-blue); 
+            color: white;
+            padding: 8px 20px; 
+            border-radius: 20px;
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+        .btn-nav:hover { transform: scale(1.05); }
+
+        /* --- HERO SECTION --- */
+        header {
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .cta-group { display: flex; gap: 16px; margin-bottom: 80px; flex-wrap: wrap; justify-content: center; }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .btn-primary:hover { box-shadow: 0 0 40px rgba(10, 132, 255, 0.5); transform: translateY(-2px); }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-secondary:hover { background: rgba(128,128,128,0.1); }
+
+        /* --- 3D APP PREVIEW --- */
+        .app-preview-container {
+            perspective: 2000px;
+            width: 100%; max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .app-window {
+            background: var(--mockup-bg);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3);
+            overflow: hidden;
+            transform: rotateX(10deg) translateY(20px);
+            transition: transform 0.5s ease-out;
+            position: relative;
+        }
+        
+        .mockup-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: var(--mockup-bg);
+            min-height: 600px;
+            position: relative;
+        }
+        
+        .mockup-ui {
+            position: absolute; inset: 0; display: flex;
+        }
+        .mockup-sidebar { 
+            width: 260px; 
+            border-right: 1px solid var(--card-border); 
+            background: var(--mockup-sidebar); 
+        }
+        .mockup-content { flex: 1; padding: 40px; }
+        .mockup-card { 
+            height: 180px; 
+            background: var(--mockup-card); 
+            border-radius: 16px; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--card-border); 
+        }
+
+        /* --- BENTO GRID FEATURES --- */
+        section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+        
+        .section-header { margin-bottom: 60px; text-align: left; }
+        .section-tag { 
+            color: var(--accent-blue); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 0.8rem; 
+            letter-spacing: 0.1em; 
+            margin-bottom: 10px; 
+            display: block;
+        }
+        .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 300px);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-blue); }
+
+        .card-large { grid-column: span 2; }
+        .card-tall { grid-row: span 2; }
+
+        .card-icon {
+            width: 48px; height: 48px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        .card-visual {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 60%; height: 60%;
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), transparent);
+            border-top-left-radius: 24px;
+            border: 1px solid var(--card-border);
+            border-bottom: none; border-right: none;
+        }
+
+        /* --- VERSIONS SECTION --- */
+        #versions {
+            padding: 100px 20px;
+        }
+
+        .versions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .version-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .version-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .version-tag {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .version-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .version-date {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        .version-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-blue);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(10, 132, 255, 0.4);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(to top, var(--bg-color), transparent);
+        }
+
+        .footer-links { display: flex; justify-content: center; gap: 30px; margin: 30px 0; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; }
+        .footer-links a:hover { color: var(--text-main); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .card-large, .card-tall { grid-column: span 1; grid-row: span 1; min-height: 300px; }
+            h1 { font-size: 3rem; }
+            .versions-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-light"></div>
+
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" onclick="toggleTheme()" title="Changer de thème">
+        <span id="theme-icon">🌙</span>
+    </div>
+
+    <nav>
+        <a href="#" class="logo">McreaHub</a>
+        <div class="nav-links">
+            <a href="#features">Fonctionnalités</a>
+            <a href="#versions">Versions</a>
+            <a href="https://github.com/Dreyka-Oas/McreaHub" target="_blank">GitHub</a>
+        </div>
+        <a href="#versions" class="btn-nav" id="latest-version-btn">Télécharger</a>
+    </nav>
+
+    <header>
+        <div class="tag" style="margin-bottom: 20px; padding: 6px 12px; border-radius: 20px; background: rgba(128,128,128,0.2); font-size: 0.8rem; font-weight: 600;">
+            ✨ <span id="latest-version-tag">Chargement...</span>
+        </div>
+        <h1>
+            Maîtrisez vos projets<br>
+            MCreator.
+        </h1>
+        <p class="subtitle">
+            Le gestionnaire tout-en-un pour les développeurs de mods. Versions multiples, synchronisation Git, backups automatiques et prise de notes.
+        </p>
+        
+        <div class="cta-group">
+            <a href="#versions" class="btn-primary">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Télécharger pour Windows
+            </a>
+            <a href="https://github.com/Dreyka-Oas/McreaHub" class="btn-secondary">Code Source</a>
+        </div>
+
+        <div class="app-preview-container">
+            <div class="app-window">
+                <div class="mockup-img">
+                    <div class="mockup-ui">
+                        <div class="mockup-sidebar" style="padding: 20px;">
+                            <div style="width: 40px; height: 40px; background: var(--mockup-card); border-radius: 10px; margin-bottom: 40px;"></div>
+                            <div style="height: 10px; width: 60%; background: var(--mockup-card); margin-bottom: 20px; border-radius: 4px;"></div>
+                            <div style="height: 10px; width: 80%; background: var(--mockup-card); margin-bottom: 10px; border-radius: 4px; opacity: 0.5"></div>
+                            <div style="height: 10px; width: 70%; background: var(--mockup-card); margin-bottom: 10px; border-radius: 4px; opacity: 0.5"></div>
+                        </div>
+                        <div class="mockup-content">
+                            <div style="display:flex; justify-content:space-between; margin-bottom: 30px;">
+                                <div style="height: 30px; width: 200px; background: var(--mockup-card); border-radius: 8px;"></div>
+                                <div style="height: 30px; width: 100px; background: var(--accent-blue); border-radius: 8px;"></div>
+                            </div>
+                            <div class="mockup-card"></div>
+                            <div class="mockup-card"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features">
+        <div class="section-header">
+            <span class="section-tag">Puissance & Contrôle</span>
+            <h2 class="section-title">Tout ce dont vous avez besoin.</h2>
+            <p style="color: var(--text-muted); max-width: 500px;">McreaHub remplace le launcher par défaut en ajoutant les outils professionnels qui manquaient à MCreator.</p>
+        </div>
+
+        <div class="bento-grid">
+            <div class="card card-large">
+                <div>
+                    <div class="card-icon">📦</div>
+                    <h3>Multi-Versions</h3>
+                    <p>Installez et gérez plusieurs versions de MCreator (2024.1, 2023.4...) simultanément. Basculez de l'une à l'autre en un clic sans conflit.</p>
+                </div>
+                <div class="card-visual" style="background: linear-gradient(135deg, rgba(48, 209, 88, 0.1), transparent);"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔄</div>
+                <h3>Git Intégré</h3>
+                <p>Synchronisez vos espaces de travail avec GitHub. Détectez les changements, commitez et pushez directement depuis l'interface.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🛡️</div>
+                <h3>Backups Auto</h3>
+                <p>Ne perdez plus jamais votre travail. Système de sauvegarde zippée locale avec gestion de l'historique.</p>
+            </div>
+
+            <div class="card card-large">
+                <div>
+                    <div class="card-icon">📝</div>
+                    <h3>Notes & Tâches</h3>
+                    <p>Un espace de prise de notes intégré pour lister vos idées de mods, vos TODOs et les lier à des projets spécifiques.</p>
+                </div>
+                <div class="card-visual" style="background: linear-gradient(135deg, rgba(191, 90, 242, 0.1), transparent);"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="versions">
+        <div class="section-header">
+            <span class="section-tag">Téléchargements</span>
+            <h2 class="section-title">Versions disponibles</h2>
+            <p style="color: var(--text-muted); max-width: 500px;">Téléchargez la dernière version ou explorez les versions précédentes de McreaHub.</p>
+        </div>
+
+        <div id="versions-container" class="loading">
+            <p>Chargement des versions depuis GitHub...</p>
+        </div>
+    </section>
+
+    <footer>
+        <h2 style="font-family: var(--font-serif);">McreaHub</h2>
+        <div class="footer-links">
+            <a href="https://github.com/Dreyka-Oas/McreaHub">Documentation</a>
+            <a href="https://github.com/Dreyka-Oas/McreaHub/releases">Changelog</a>
+            <a href="https://github.com/Dreyka-Oas/McreaHub/blob/main/LICENSE">Licence</a>
+            <a href="https://github.com/Dreyka-Oas/McreaHub/issues">Support</a>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.8rem;">
+            Fait avec ❤️ pour la communauté MCreator.<br>
+            Non affilié officiellement à Pylo.
+        </p>
+    </footer>
+
+    <script>
+        // Theme Management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update icon
+            document.getElementById('theme-icon').textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-icon').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+
+        // Parallax effect on app window
+        document.addEventListener('mousemove', (e) => {
+            const appWindow = document.querySelector('.app-window');
+            if (!appWindow) return;
+            
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+            
+            appWindow.style.transform = `rotateX(${10 + y * 0.5}deg) rotateY(${x * 0.5}deg) translateY(20px)`;
+        });
+
+        // Fetch GitHub Releases
+        async function fetchReleases() {
+            const container = document.getElementById('versions-container');
+            
+            try {
+                const response = await fetch('https://api.github.com/repos/Dreyka-Oas/McreaHub/releases');
+                
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des versions');
+                }
+                
+                const releases = await response.json();
+                
+                if (releases.length === 0) {
+                    container.innerHTML = '<p class="loading">Aucune version disponible pour le moment.</p>';
+                    return;
+                }
+
+                // Update latest version in header and nav
+                const latestRelease = releases[0];
+                document.getElementById('latest-version-tag').textContent = `Nouvelle version ${latestRelease.tag_name} disponible`;
+                document.getElementById('latest-version-btn').textContent = `Obtenir ${latestRelease.tag_name}`;
+                
+                // Create version cards
+                container.innerHTML = '';
+                container.className = 'versions-grid';
+                
+                releases.forEach((release, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'version-card';
+                    
+                    const isLatest = index === 0;
+                    const date = new Date(release.published_at).toLocaleDateString('fr-FR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    // Get download URL for the main asset
+                    const mainAsset = release.assets.find(asset => 
+                        asset.name.endsWith('.exe') || 
+                        asset.name.endsWith('.zip') || 
+                        asset.name.endsWith('.msi')
+                    );
+                    
+                    const downloadUrl = mainAsset ? mainAsset.browser_download_url : release.html_url;
+                    
+                    card.innerHTML = `
+                        ${isLatest ? '<span class="version-tag">DERNIÈRE VERSION</span>' : ''}
+                        <h3 class="version-name">${release.name || release.tag_name}</h3>
+                        <p class="version-date">Publié le ${date}</p>
+                        <div class="version-description">
+                            ${release.body ? release.body.split('\n').slice(0, 3).join('<br>') : 'Aucune description disponible.'}
+                        </div>
+                        <a href="${downloadUrl}" class="download-btn" target="_blank">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            Télécharger
+                        </a>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                container.innerHTML = `
+                    <p class="loading" style="color: #ff4444;">
+                        ❌ Impossible de charger les versions. <br>
+                        <a href="https://github.com/Dreyka-Oas/McreaHub/releases" target="_blank" style="color: var(--accent-blue);">
+                            Voir sur GitHub
+                        </a>
+                    </p>
+                `;
+            }
+        }
+
+        // Load releases when page loads
+        fetchReleases();
+    </script>
+</body>
+</html>

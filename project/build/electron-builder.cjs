@@ -47,13 +47,28 @@ const config = {
   asarUnpack: ['**/node_modules/keytar/**/*'],
   asar: true,
 
+  // --- WINDOWS ---
   win: {
     target: [{ target: 'nsis', arch: ['x64'] }],
     icon: 'src/renderer/assets/icons/logo.ico',
     requestedExecutionLevel: 'asInvoker'
   },
-  mac: { target: 'dmg', icon: 'src/renderer/assets/icons/logo.icns' },
-  linux: { target: 'AppImage', icon: 'src/renderer/assets/icons/logo.icns' },
+
+  // --- MAC (CORRIGÉ) ---
+  mac: { 
+    target: 'dmg', 
+    icon: 'src/renderer/assets/icons/logo.icns',
+    // CRITIQUE : Désactive la signature de code pour éviter l'erreur sur GitHub Actions
+    identity: null 
+  },
+
+  // --- LINUX (CORRIGÉ) ---
+  linux: { 
+    target: 'AppImage', 
+    // Linux préfère souvent les PNG. Assure-toi d'avoir ce fichier (512x512 ou 1024x1024)
+    icon: 'src/renderer/assets/icons/logo.png',
+    category: 'Game' 
+  },
 
   nsis: {
     oneClick: false,
@@ -61,10 +76,7 @@ const config = {
     perMachine: true, 
     allowElevation: true, 
     uninstallDisplayName: `${currentConfig.productName} Uninstaller`,
-    
-    // --- IMPORTANT : On désactive la suppression auto pour laisser le script NSH gérer ---
     deleteAppDataOnUninstall: false,
-    
     warningsAsErrors: false,
     installerLanguages: ['fr', 'en'],
     language: '1036',

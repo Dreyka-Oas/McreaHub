@@ -12,6 +12,12 @@ jobs:
   build:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    
+    # --- INDISPENSABLE : On dit à l'action de travailler dans le sous-dossier ---
+    defaults:
+      run:
+        working-directory: ./project
+
     strategy:
       fail-fast: false
       matrix:
@@ -26,12 +32,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          # On précise où se trouve le fichier pour le cache
+          cache-dependency-path: './project/package-lock.json'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
-      # C'EST ICI QUE ÇA CHANGE : On lance les 3 builds
-      - name: Build All Targets (User, Pro, Extras)
+      - name: Build All Targets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build:release-targets
@@ -40,10 +47,10 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          # Le motif *.exe va attraper "Mcreahub.exe", "Mcreahub Pro.exe", etc.
+          # On adapte les chemins des fichiers à uploader
           files: |
-            release/*.exe
-            release/*.AppImage
-            release/*.deb
-            release/*.dmg
-            release/*.zip
+            project/release/*.exe
+            project/release/*.AppImage
+            project/release/*.deb
+            project/release/*.dmg
+            project/release/*.zip

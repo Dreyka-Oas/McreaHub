@@ -1,6 +1,6 @@
 {
   "name": "mcreahub",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "description": "Un gestionnaire avancé pour les versions et projets MCreator.",
   "main": "out/main/index.js",
   "scripts": {

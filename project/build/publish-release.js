@@ -9,17 +9,16 @@ const REPO_URL = "https://github.com/Dreyka-Oas/McreaHub/actions";
 console.log(`\n🚀 PRÉPARATION DE LA RELEASE : ${TAG}\n`);
 
 try {
-    // 1. Validation des fichiers locaux (au cas où tu as oublié de save)
+    // 1. Validation des fichiers locaux
     console.log("📦 Validation des modifications locales...");
     execSync('git add .', { stdio: 'inherit' });
     try {
         execSync(`git commit -m "Release ${TAG}"`, { stdio: 'inherit' });
     } catch (e) {
-        // On ignore l'erreur si y'avait rien à commiter
         console.log("   -> Rien à commiter, on continue.");
     }
 
-    // 2. Nettoyage du Tag distant (Force Overwrite)
+    // 2. Nettoyage du Tag distant
     console.log(`🔥 Suppression de l'ancien tag ${TAG} sur GitHub (si existant)...`);
     try {
         execSync(`git push origin :refs/tags/${TAG}`, { stdio: 'inherit' });
@@ -41,17 +40,28 @@ try {
 
     // 5. Envoi Code + Tag
     console.log("🚀 Envoi vers GitHub...");
-    execSync('git push origin main', { stdio: 'inherit' }); // Envoie le code
-    execSync(`git push origin ${TAG}`, { stdio: 'inherit' }); // Envoie le tag (déclenche le build)
+    execSync('git push origin main', { stdio: 'inherit' }); 
+    execSync(`git push origin ${TAG}`, { stdio: 'inherit' }); 
 
     console.log("\n✅ SUCCÈS ! Le build a été déclenché sur GitHub.");
     
-    // 6. Ouverture du navigateur
+    // 6. Ouverture du navigateur (CORRIGÉ)
     console.log("🌍 Ouverture de la page Actions...");
-    execSync(`explorer "${REPO_URL}"`);
+    try {
+        // Tentative d'ouverture propre selon l'OS
+        const startCmd = process.platform === 'win32' ? 'start' : 'open';
+        // On utilise 'start "" url' pour Windows pour être plus robuste
+        const finalCmd = process.platform === 'win32' ? `start "" "${REPO_URL}"` : `open "${REPO_URL}"`;
+        
+        execSync(finalCmd, { stdio: 'ignore' });
+    } catch (e) {
+        // Si l'ouverture échoue, on affiche juste le lien sans planter le script
+        console.log(`\n   --> Impossible d'ouvrir le navigateur automatiquement.`);
+        console.log(`   --> Veuillez cliquer ici : ${REPO_URL}`);
+    }
 
 } catch (error) {
-    console.error("\n❌ ERREUR PENDANT LE PROCESSUS :");
+    console.error("\n❌ ERREUR CRITIQUE PENDANT LE PROCESSUS :");
     console.error(error.message);
     process.exit(1);
 }

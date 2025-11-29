@@ -25,6 +25,10 @@
     "clean": "npx npm-run-all clean:*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dreyka-Oas/McreaHub.git"
+  },
   "keywords": [
     "mcreator",
     "minecraft",
